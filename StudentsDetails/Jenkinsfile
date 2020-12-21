@@ -9,11 +9,7 @@ mvn clean install
 '''
 }
 }
-stage ('Test Stage') {
-steps {
-junit 'StudentsDetails/target/surefire-reports/*.xml'
-}
-}
+
 }
 }
             ​​​​​​ ​​​​​​
