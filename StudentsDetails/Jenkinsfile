@@ -10,5 +10,18 @@ pipeline {
 							'''	
                           }
                   }
+                  stage ('Test Stage') {
+                   steps {
+                           junit 'StudentsDetails/target/surefire-reports/*.xml'
+                         }
+                    }
+                  stage ('QA Stage') {
+                  steps {
+                          sh '''
+                          cd StudentsDetails
+                          mvn clean install sonar:sonar
+                          '''
+                        }
+                 }
             }
        }
