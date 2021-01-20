@@ -1,20 +1,29 @@
 @Library('shared-library@main') _ //master or whatever branch
 
-pipeline{
-
-      agent any
-        
-        stages{
-
-              stage('maven build'){
-                  steps{
-                      script{
-		    	                sh '''
-          cd StudentsDetails
-          mvn clean install
-    '''
-                      	  }
-               	     }  
+pipeline {
+	
+	agent any
+		stages {
+			stage('Compile Stage') {					
+  					steps{
+   							sh '''
+							cd StudentsDetails
+							mvn clean install
+							'''	
+                          }
+                  }
+                  stage ('Test Stage') {
+                   steps {
+                           junit 'StudentsDetails/target/surefire-reports/*.xml'
+                         }
+                    }
+                  stage ('QA Stage') {
+                  steps {
+                          sh '''
+                          cd StudentsDetails
+                          mvn clean install sonar:sonar
+                          '''
+                        }
                  }	
                  
                  stage ('Check logs') {
